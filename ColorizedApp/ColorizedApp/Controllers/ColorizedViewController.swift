@@ -204,6 +204,16 @@ final class ColorizedViewController: UIViewController {
         return stackView
     }()
     
+    private lazy var doneButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Done", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 30)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        return button
+    }()
+    
     // MARK: -  Override Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -225,7 +235,11 @@ private extension ColorizedViewController {
     }
     
     func addSubviews() {
-        setupSubviews(colorView, colorizedStackView)
+        setupSubviews(
+            colorView,
+            colorizedStackView,
+            doneButton
+        )
     }
     
     func setupSubviews(_ subviews: UIView... ) {
@@ -243,7 +257,7 @@ private extension ColorizedViewController {
         setConstraintsForValueLabelsStackView()
         setConstraintsForTextFieldsStackView()
         setConstraintsForColorizedStackView()
-        
+        setConstraintsForDoneButton()
     }
     
     func setConstraintsForColorView() {
@@ -289,6 +303,17 @@ private extension ColorizedViewController {
             ),
             colorizedStackView.trailingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16
+            )
+        ])
+    }
+    
+    func setConstraintsForDoneButton() {
+        NSLayoutConstraint.activate([
+            doneButton.centerXAnchor.constraint(
+                equalTo: view.centerXAnchor
+            ),
+            doneButton.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -53
             )
         ])
     }
