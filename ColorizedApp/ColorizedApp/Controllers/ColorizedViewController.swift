@@ -113,10 +113,11 @@ final class ColorizedViewController: UIViewController {
     private lazy var redTextField: UITextField = {
         let textField = UITextField()
         textField.text = string(from: redSlider)
-        textField.placeholder = "1.00"
+        textField.placeholder = "0.00"
         textField.backgroundColor = .white
         textField.borderStyle = .roundedRect
         textField.font = .systemFont(ofSize: 14)
+        textField.delegate = self
         
         return textField
     }()
@@ -124,10 +125,11 @@ final class ColorizedViewController: UIViewController {
     private lazy var greenTextField: UITextField = {
         let textField = UITextField()
         textField.text = string(from: greenSlider)
-        textField.placeholder = "1.00"
+        textField.placeholder = "0.00"
         textField.backgroundColor = .white
         textField.borderStyle = .roundedRect
         textField.font = .systemFont(ofSize: 14)
+        textField.delegate = self
         
         return textField
     }()
@@ -135,10 +137,11 @@ final class ColorizedViewController: UIViewController {
     private lazy var blueTextField: UITextField = {
         let textField = UITextField()
         textField.text = string(from: blueSlider)
-        textField.placeholder = "1.00"
+        textField.placeholder = "0.00"
         textField.backgroundColor = .white
         textField.borderStyle = .roundedRect
         textField.font = .systemFont(ofSize: 14)
+        textField.delegate = self
         
         return textField
     }()
@@ -224,6 +227,11 @@ final class ColorizedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
     }
 }
 
@@ -361,4 +369,73 @@ private extension ColorizedViewController {
     }
 }
 
+// MARK: -  Alert Controller
+private extension ColorizedViewController {
+    private func showAlert(withTitle title: String, andMessage message: String, textField: UITextField? = nil) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) {_ in
+            textField?.text = "0.50"
+            textField?.becomeFirstResponder()
+        }
+        alert.addAction(okAction)
+        present(alert, animated: true)
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension ColorizedViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let text = textField.text else {
+            showAlert(withTitle: "Wrong format!", andMessage: "Please enter correct value")
+            return
+        }
+        guard let currentValue = Float(text), (0...1).contains(currentValue) else {
+            showAlert(
+                withTitle: "Wrong format!",
+                andMessage: "Please enter correct value",
+                textField: textField
+            )
+            return
+        }
+        
+        switch textField {
+        case redTextField:
+            redSlider.setValue(currentValue, animated: true)
+            redValueLabel.text = string(from: redSlider)
+        case greenTextField:
+            greenSlider.setValue(currentValue, animated: true)
+            greenValueLabel.text = string(from: greenSlider)
+        default:
+            blueSlider.setValue(currentValue, animated: true)
+            blueValueLabel.text = string(from: blueSlider)
+        }
+        
+        setColor()
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        guard textField != redTextField else { return }
+        let keyboardToolbar = UIToolbar()
+        keyboardToolbar.sizeToFit()
+        textField.inputAccessoryView = keyboardToolbar
+        
+        let doneButton = UIBarButtonItem(
+            barButtonSystemItem: .done,
+            target: textField,
+            action: #selector(resignFirstResponder)
+        )
+        
+        let flexBarButton = UIBarButtonItem(
+            barButtonSystemItem: .flexibleSpace,
+            target: nil,
+            action: nil
+        )
+        
+        keyboardToolbar.items = [flexBarButton, doneButton]
+    }
+}
 
