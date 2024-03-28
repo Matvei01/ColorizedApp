@@ -52,7 +52,7 @@ final class ColorizedViewController: UIViewController {
     
     private lazy var redValueLabel: UILabel = {
         let label = UILabel()
-        label.text = "1.00"
+        label.text = string(from: redSlider)
         label.textColor = .white
         label.adjustsFontSizeToFitWidth = false
         label.font = .systemFont(ofSize: 14)
@@ -62,7 +62,7 @@ final class ColorizedViewController: UIViewController {
     
     private lazy var greenValueLabel: UILabel = {
         let label = UILabel()
-        label.text = "1.00"
+        label.text = string(from: greenSlider)
         label.textColor = .white
         label.adjustsFontSizeToFitWidth = false
         label.font = .systemFont(ofSize: 14)
@@ -72,7 +72,7 @@ final class ColorizedViewController: UIViewController {
     
     private lazy var blueValueLabel: UILabel = {
         let label = UILabel()
-        label.text = "1.00"
+        label.text = string(from: blueSlider)
         label.textColor = .white
         label.adjustsFontSizeToFitWidth = false
         label.font = .systemFont(ofSize: 14)
@@ -82,32 +82,38 @@ final class ColorizedViewController: UIViewController {
     
     private lazy var redSlider: UISlider = {
         let slider = UISlider()
+        slider.value = 1
         slider.minimumTrackTintColor = .red
         slider.maximumTrackTintColor = .systemGray
+        slider.addTarget(self, action: #selector(redSliderChanged), for: .valueChanged)
         
         return slider
     }()
     
     private lazy var greenSlider: UISlider = {
         let slider = UISlider()
+        slider.value = 1
         slider.minimumTrackTintColor = .green
         slider.maximumTrackTintColor = .systemGray
+        slider.addTarget(self, action: #selector(greenSliderChanged), for: .valueChanged)
         
         return slider
     }()
     
     private lazy var blueSlider: UISlider = {
         let slider = UISlider()
+        slider.value = 1
         slider.minimumTrackTintColor = .blue
         slider.maximumTrackTintColor = .systemGray
+        slider.addTarget(self, action: #selector(blueSliderChanged), for: .valueChanged)
         
         return slider
     }()
     
     private lazy var redTextField: UITextField = {
         let textField = UITextField()
+        textField.text = string(from: redSlider)
         textField.placeholder = "1.00"
-        textField.keyboardType = .numberPad
         textField.backgroundColor = .white
         textField.borderStyle = .roundedRect
         textField.font = .systemFont(ofSize: 14)
@@ -117,8 +123,8 @@ final class ColorizedViewController: UIViewController {
     
     private lazy var greenTextField: UITextField = {
         let textField = UITextField()
+        textField.text = string(from: greenSlider)
         textField.placeholder = "1.00"
-        textField.keyboardType = .numberPad
         textField.backgroundColor = .white
         textField.borderStyle = .roundedRect
         textField.font = .systemFont(ofSize: 14)
@@ -128,8 +134,8 @@ final class ColorizedViewController: UIViewController {
     
     private lazy var blueTextField: UITextField = {
         let textField = UITextField()
+        textField.text = string(from: blueSlider)
         textField.placeholder = "1.00"
-        textField.keyboardType = .numberPad
         textField.backgroundColor = .white
         textField.borderStyle = .roundedRect
         textField.font = .systemFont(ofSize: 14)
@@ -223,7 +229,26 @@ final class ColorizedViewController: UIViewController {
 
 // MARK: -  Action
 private extension ColorizedViewController {
+    @objc func redSliderChanged() {
+        redValueLabel.text = string(from: redSlider)
+        redTextField.text = string(from: redSlider)
+        
+        setColor()
+    }
     
+    @objc func greenSliderChanged() {
+        greenValueLabel.text = string(from: greenSlider)
+        greenTextField.text = string(from: greenSlider)
+        
+        setColor()
+    }
+    
+    @objc func blueSliderChanged() {
+        blueValueLabel.text = string(from: blueSlider)
+        blueTextField.text = string(from: blueSlider)
+        
+        setColor()
+    }
 }
 
 // MARK: -  Private Methods
@@ -231,6 +256,7 @@ private extension ColorizedViewController {
     func setupView() {
         view.backgroundColor = .systemIndigo
         addSubviews()
+        setColor()
         setConstraints()
     }
     
@@ -246,6 +272,22 @@ private extension ColorizedViewController {
         for subview in subviews {
             view.addSubview(subview)
         }
+    }
+    
+    private func string(from slider: UISlider) -> String {
+        String(format: "%.2f", slider.value)
+    }
+}
+
+// MARK: -  Set Color
+private extension ColorizedViewController {
+    func setColor() {
+        colorView.backgroundColor = UIColor(
+            red: CGFloat(redSlider.value),
+            green: CGFloat(greenSlider.value),
+            blue: CGFloat(blueSlider.value),
+            alpha: 1
+        )
     }
 }
 
@@ -318,4 +360,5 @@ private extension ColorizedViewController {
         ])
     }
 }
+
 
