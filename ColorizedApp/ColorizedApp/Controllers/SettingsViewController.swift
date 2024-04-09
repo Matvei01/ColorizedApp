@@ -1,5 +1,5 @@
 //
-//  ColorizedViewController.swift
+//  SettingsViewController.swift
 //  ColorizedApp
 //
 //  Created by Matvei Khlestov on 28.03.2024.
@@ -7,14 +7,22 @@
 
 import UIKit
 
-// MARK: -  ColorizedViewController
-final class ColorizedViewController: UIViewController {
+// MARK: -  SettingsViewControllerDelegate
+protocol SettingsViewControllerDelegate: AnyObject {
+    func setColor(_ color: UIColor)
+}
+
+// MARK: -  SettingsViewController
+final class SettingsViewController: UIViewController {
+    
+    // MARK: -  Public Properties
+    unowned var delegate: SettingsViewControllerDelegate!
+    var viewColor: UIColor!
     
     // MARK: -  UI Elements
     private lazy var colorView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 10
-        view.backgroundColor = .white
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
@@ -81,31 +89,31 @@ final class ColorizedViewController: UIViewController {
     }()
     
     private lazy var redSlider: UISlider = {
-        let slider = UISlider()
+        let slider = UISlider(frame: .zero, primaryAction: sliderChanged)
         slider.value = 1
         slider.minimumTrackTintColor = .red
         slider.maximumTrackTintColor = .systemGray
-        slider.addTarget(self, action: #selector(redSliderChanged), for: .valueChanged)
+        slider.tag = 0
         
         return slider
     }()
     
     private lazy var greenSlider: UISlider = {
-        let slider = UISlider()
+        let slider = UISlider(frame: .zero, primaryAction: sliderChanged)
         slider.value = 1
         slider.minimumTrackTintColor = .green
         slider.maximumTrackTintColor = .systemGray
-        slider.addTarget(self, action: #selector(greenSliderChanged), for: .valueChanged)
+        slider.tag = 1
         
         return slider
     }()
     
     private lazy var blueSlider: UISlider = {
-        let slider = UISlider()
+        let slider = UISlider(frame: .zero, primaryAction: sliderChanged)
         slider.value = 1
         slider.minimumTrackTintColor = .blue
         slider.maximumTrackTintColor = .systemGray
-        slider.addTarget(self, action: #selector(blueSliderChanged), for: .valueChanged)
+        slider.tag = 2
         
         return slider
     }()
@@ -214,7 +222,7 @@ final class ColorizedViewController: UIViewController {
     }()
     
     private lazy var doneButton: UIButton = {
-        let button = UIButton(type: .system)
+        let button = UIButton(type: .system, primaryAction: doneButtonTapped)
         button.setTitle("Done", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 30)
@@ -222,6 +230,31 @@ final class ColorizedViewController: UIViewController {
         
         return button
     }()
+    
+    // MARK: -  Action
+    private lazy var sliderChanged = UIAction { [ unowned self ] action in
+        guard let sender = action.sender as? UISlider else { return }
+        
+        switch sender.tag {
+        case 0:
+            redValueLabel.text = string(from: redSlider)
+            redTextField.text = string(from: redSlider)
+        case 1:
+            greenValueLabel.text = string(from: greenSlider)
+            greenTextField.text = string(from: greenSlider)
+        default:
+            blueValueLabel.text = string(from: blueSlider)
+            blueTextField.text = string(from: blueSlider)
+        }
+        
+        setColor()
+        
+    }
+    
+    private lazy var doneButtonTapped = UIAction { [ unowned self ] _ in
+        delegate.setColor(colorView.backgroundColor ?? .white)
+        navigationController?.popViewController(animated: true)
+    }
     
     // MARK: -  Override Methods
     override func viewDidLoad() {
@@ -235,36 +268,19 @@ final class ColorizedViewController: UIViewController {
     }
 }
 
-// MARK: -  Action
-private extension ColorizedViewController {
-    @objc func redSliderChanged() {
-        redValueLabel.text = string(from: redSlider)
-        redTextField.text = string(from: redSlider)
-        
-        setColor()
-    }
-    
-    @objc func greenSliderChanged() {
-        greenValueLabel.text = string(from: greenSlider)
-        greenTextField.text = string(from: greenSlider)
-        
-        setColor()
-    }
-    
-    @objc func blueSliderChanged() {
-        blueValueLabel.text = string(from: blueSlider)
-        blueTextField.text = string(from: blueSlider)
-        
-        setColor()
-    }
-}
-
 // MARK: -  Private Methods
-private extension ColorizedViewController {
+private extension SettingsViewController {
     func setupView() {
         view.backgroundColor = .systemIndigo
+        
         addSubviews()
+        
         setColor()
+        
+        colorView.backgroundColor = viewColor
+        
+        setValue()
+        
         setConstraints()
     }
     
@@ -288,7 +304,7 @@ private extension ColorizedViewController {
 }
 
 // MARK: -  Set Color
-private extension ColorizedViewController {
+private extension SettingsViewController {
     func setColor() {
         colorView.backgroundColor = UIColor(
             red: CGFloat(redSlider.value),
@@ -299,8 +315,21 @@ private extension ColorizedViewController {
     }
 }
 
+// MARK: -  Set Value
+private extension SettingsViewController {
+    func setValue() {
+        let ciColor = CIColor(color: viewColor)
+        
+        redSlider.value = Float(ciColor.red)
+        greenSlider.value = Float(ciColor.green)
+        blueSlider.value = Float(ciColor.blue)
+    }
+}
+
+
+
 // MARK: -  Constraints
-private extension ColorizedViewController {
+private extension SettingsViewController {
     func setConstraints() {
         setConstraintsForColorView()
         setConstraintsForColorLabelsStackView()
@@ -370,7 +399,7 @@ private extension ColorizedViewController {
 }
 
 // MARK: -  Alert Controller
-private extension ColorizedViewController {
+private extension SettingsViewController {
     private func showAlert(withTitle title: String, andMessage message: String, textField: UITextField? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default) {_ in
@@ -383,7 +412,7 @@ private extension ColorizedViewController {
 }
 
 // MARK: - UITextFieldDelegate
-extension ColorizedViewController: UITextFieldDelegate {
+extension SettingsViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
     }

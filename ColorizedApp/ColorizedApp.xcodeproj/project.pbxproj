@@ -9,19 +9,21 @@
 /* Begin PBXBuildFile section */
 		1A540FE42BB5BE33001F222C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A540FE32BB5BE33001F222C /* AppDelegate.swift */; };
 		1A540FE62BB5BE33001F222C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A540FE52BB5BE33001F222C /* SceneDelegate.swift */; };
-		1A540FE82BB5BE33001F222C /* ColorizedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A540FE72BB5BE33001F222C /* ColorizedViewController.swift */; };
+		1A540FE82BB5BE33001F222C /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A540FE72BB5BE33001F222C /* SettingsViewController.swift */; };
 		1A540FED2BB5BE34001F222C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A540FEC2BB5BE34001F222C /* Assets.xcassets */; };
 		1A540FF02BB5BE34001F222C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A540FEE2BB5BE34001F222C /* LaunchScreen.storyboard */; };
+		1AABF05C2BC5DDC300DD4CD8 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AABF05B2BC5DDC300DD4CD8 /* MainViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1A540FE02BB5BE33001F222C /* ColorizedApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ColorizedApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A540FE32BB5BE33001F222C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1A540FE52BB5BE33001F222C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		1A540FE72BB5BE33001F222C /* ColorizedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorizedViewController.swift; sourceTree = "<group>"; };
+		1A540FE72BB5BE33001F222C /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		1A540FEC2BB5BE34001F222C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1A540FEF2BB5BE34001F222C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1A540FF12BB5BE34001F222C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1AABF05B2BC5DDC300DD4CD8 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,7 +77,8 @@
 		1A540FF82BB5BFAF001F222C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				1A540FE72BB5BE33001F222C /* ColorizedViewController.swift */,
+				1A540FE72BB5BE33001F222C /* SettingsViewController.swift */,
+				1AABF05B2BC5DDC300DD4CD8 /* MainViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -166,9 +169,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A540FE82BB5BE33001F222C /* ColorizedViewController.swift in Sources */,
+				1A540FE82BB5BE33001F222C /* SettingsViewController.swift in Sources */,
 				1A540FE42BB5BE33001F222C /* AppDelegate.swift in Sources */,
 				1A540FE62BB5BE33001F222C /* SceneDelegate.swift in Sources */,
+				1AABF05C2BC5DDC300DD4CD8 /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
