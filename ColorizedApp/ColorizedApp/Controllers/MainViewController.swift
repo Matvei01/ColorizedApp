@@ -22,10 +22,10 @@ final class MainViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        setupNavigationController()
+        setupNavigationBar()
     }
     
-    private func setupNavigationController() {
+    private func setupNavigationBar() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             systemItem: .compose,
             primaryAction: settingsButtonTapped
