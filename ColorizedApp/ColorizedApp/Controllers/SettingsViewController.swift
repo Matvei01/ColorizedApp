@@ -29,180 +29,79 @@ final class SettingsViewController: UIViewController {
     }()
     
     private lazy var redColorLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Red:"
-        label.textColor = .white
-        label.adjustsFontSizeToFitWidth = false
-        label.font = .systemFont(ofSize: 14)
-        
-        return label
+        createLabel(text: "Red:")
     }()
     
     private lazy var greenColorLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Green:"
-        label.textColor = .white
-        label.adjustsFontSizeToFitWidth = false
-        label.font = .systemFont(ofSize: 14)
-        
-        return label
+        createLabel(text: "Green:")
     }()
     
     private lazy var blueColorLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Blue:"
-        label.textColor = .white
-        label.adjustsFontSizeToFitWidth = false
-        label.font = .systemFont(ofSize: 14)
-        
-        return label
+        createLabel(text: "Blue:")
     }()
     
     private lazy var redValueLabel: UILabel = {
-        let label = UILabel()
-        label.text = string(from: redSlider)
-        label.textColor = .white
-        label.adjustsFontSizeToFitWidth = false
-        label.font = .systemFont(ofSize: 14)
-        
-        return label
+        createLabel()
     }()
     
     private lazy var greenValueLabel: UILabel = {
-        let label = UILabel()
-        label.text = string(from: greenSlider)
-        label.textColor = .white
-        label.adjustsFontSizeToFitWidth = false
-        label.font = .systemFont(ofSize: 14)
-        
-        return label
+        createLabel()
     }()
     
     private lazy var blueValueLabel: UILabel = {
-        let label = UILabel()
-        label.text = string(from: blueSlider)
-        label.textColor = .white
-        label.adjustsFontSizeToFitWidth = false
-        label.font = .systemFont(ofSize: 14)
-        
-        return label
+        createLabel()
     }()
     
     private lazy var redSlider: UISlider = {
-        let slider = UISlider(frame: .zero, primaryAction: sliderChanged)
-        slider.value = 1
-        slider.minimumTrackTintColor = .red
-        slider.maximumTrackTintColor = .systemGray
-        slider.tag = 0
-        
-        return slider
+        createSlider(trackTintColor: .red, action: sliderChanged, tag: 0)
     }()
     
     private lazy var greenSlider: UISlider = {
-        let slider = UISlider(frame: .zero, primaryAction: sliderChanged)
-        slider.value = 1
-        slider.minimumTrackTintColor = .green
-        slider.maximumTrackTintColor = .systemGray
-        slider.tag = 1
-        
-        return slider
+        createSlider(trackTintColor: .green, action: sliderChanged, tag: 1)
     }()
     
     private lazy var blueSlider: UISlider = {
-        let slider = UISlider(frame: .zero, primaryAction: sliderChanged)
-        slider.value = 1
-        slider.minimumTrackTintColor = .blue
-        slider.maximumTrackTintColor = .systemGray
-        slider.tag = 2
-        
-        return slider
+        createSlider(trackTintColor: .blue, action: sliderChanged, tag: 2)
     }()
     
     private lazy var redTextField: UITextField = {
-        let textField = UITextField()
-        textField.text = string(from: redSlider)
-        textField.placeholder = "0.00"
-        textField.backgroundColor = .white
-        textField.borderStyle = .roundedRect
-        textField.font = .systemFont(ofSize: 14)
-        textField.delegate = self
-        
-        return textField
+        createTextField()
     }()
     
     private lazy var greenTextField: UITextField = {
-        let textField = UITextField()
-        textField.text = string(from: greenSlider)
-        textField.placeholder = "0.00"
-        textField.backgroundColor = .white
-        textField.borderStyle = .roundedRect
-        textField.font = .systemFont(ofSize: 14)
-        textField.delegate = self
-        
-        return textField
+        createTextField()
     }()
     
     private lazy var blueTextField: UITextField = {
-        let textField = UITextField()
-        textField.text = string(from: blueSlider)
-        textField.placeholder = "0.00"
-        textField.backgroundColor = .white
-        textField.borderStyle = .roundedRect
-        textField.font = .systemFont(ofSize: 14)
-        textField.delegate = self
-        
-        return textField
+        createTextField()
     }()
     
     private lazy var colorLabelsStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [
-            redColorLabel, greenColorLabel, blueColorLabel
-        ])
-        stackView.axis = .vertical
-        stackView.alignment = .fill
-        stackView.distribution = .fill
-        stackView.spacing = 25
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        return stackView
+        createChildStackView(
+            subviews: [redColorLabel, greenColorLabel, blueColorLabel],
+            spacing: 25
+        )
     }()
     
     private lazy var valueLabelsStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [
-            redValueLabel, greenValueLabel, blueValueLabel
-        ])
-        stackView.axis = .vertical
-        stackView.alignment = .fill
-        stackView.distribution = .fill
-        stackView.spacing = 25
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        return stackView
+        createChildStackView(
+            subviews: [redValueLabel, greenValueLabel, blueValueLabel],
+            spacing: 25
+        )
     }()
     
     private lazy var slidersStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [
-            redSlider, greenSlider, blueSlider
-        ])
-        stackView.axis = .vertical
-        stackView.alignment = .fill
-        stackView.distribution = .fill
-        stackView.spacing = 12
-        
-        return stackView
+        createChildStackView(
+            subviews: [redSlider, greenSlider, blueSlider],
+            spacing: 12
+        )
     }()
     
     private lazy var textFieldsStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [
-            redTextField, greenTextField, blueTextField
-        ])
-        stackView.axis = .vertical
-        stackView.alignment = .fill
-        stackView.distribution = .fill
-        stackView.spacing = 10
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        return stackView
+        createChildStackView(
+            subviews: [redTextField, greenTextField, blueTextField],
+            spacing: 10
+        )
     }()
     
     private lazy var colorizedStackView: UIStackView = {
@@ -237,14 +136,14 @@ final class SettingsViewController: UIViewController {
         
         switch sender.tag {
         case 0:
-            redValueLabel.text = string(from: redSlider)
-            redTextField.text = string(from: redSlider)
+            setValue(for: redValueLabel)
+            setValue(for: redTextField)
         case 1:
-            greenValueLabel.text = string(from: greenSlider)
-            greenTextField.text = string(from: greenSlider)
+            setValue(for: greenValueLabel)
+            setValue(for: greenTextField)
         default:
-            blueValueLabel.text = string(from: blueSlider)
-            blueTextField.text = string(from: blueSlider)
+            setValue(for: blueValueLabel)
+            setValue(for: blueTextField)
         }
         
         setColor()
@@ -281,6 +180,10 @@ private extension SettingsViewController {
         
         setValue()
         
+        setValue(for: redValueLabel, greenValueLabel, blueValueLabel)
+        
+        setValue(for: redTextField, greenTextField, blueTextField)
+        
         setConstraints()
     }
     
@@ -298,8 +201,49 @@ private extension SettingsViewController {
         }
     }
     
-    private func string(from slider: UISlider) -> String {
+    func string(from slider: UISlider) -> String {
         String(format: "%.2f", slider.value)
+    }
+    
+    func createLabel(text: String? = nil) -> UILabel {
+        let label = UILabel()
+        label.text = text
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 14)
+        
+        return label
+    }
+    
+    func createTextField() -> UITextField {
+        let textField = UITextField()
+        textField.placeholder = "0.00"
+        textField.backgroundColor = .white
+        textField.borderStyle = .roundedRect
+        textField.font = .systemFont(ofSize: 14)
+        textField.delegate = self
+        
+        return textField
+    }
+    
+    func createSlider(trackTintColor: UIColor, action: UIAction, tag: Int) -> UISlider {
+        let slider = UISlider(frame: .zero, primaryAction: action)
+        slider.value = 1
+        slider.minimumTrackTintColor = trackTintColor
+        slider.maximumTrackTintColor = .systemGray
+        slider.tag = tag
+        
+        return slider
+    }
+    
+    func createChildStackView(subviews: [UIView], spacing: CGFloat) -> UIStackView {
+        let stackView = UIStackView(arrangedSubviews: subviews)
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.spacing = spacing
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return stackView
     }
 }
 
@@ -324,17 +268,41 @@ private extension SettingsViewController {
         greenSlider.value = Float(ciColor.green)
         blueSlider.value = Float(ciColor.blue)
     }
+    
+    private func setValue(for labels: UILabel...) {
+        labels.forEach { label in
+            switch label {
+            case redValueLabel:
+                label.text = string(from: redSlider)
+            case greenValueLabel:
+                label.text = string(from: greenSlider)
+            default: 
+                label.text = string(from: blueSlider)
+            }
+        }
+    }
+    
+    private func setValue(for textFields: UITextField...) {
+        textFields.forEach { textField in
+            switch textField {
+            case redTextField:
+                textField.text = string(from: redSlider)
+            case greenTextField:
+                textField.text = string(from: greenSlider)
+            default: 
+                textField.text = string(from: blueSlider)
+            }
+        }
+    }
 }
-
-
 
 // MARK: -  Constraints
 private extension SettingsViewController {
     func setConstraints() {
         setConstraintsForColorView()
-        setConstraintsForColorLabelsStackView()
-        setConstraintsForValueLabelsStackView()
-        setConstraintsForTextFieldsStackView()
+        setConstraintsForChildStackViews(colorLabelsStackView, constant: 44)
+        setConstraintsForChildStackViews(valueLabelsStackView, constant: 30)
+        setConstraintsForChildStackViews(textFieldsStackView, constant: 50)
         setConstraintsForColorizedStackView()
         setConstraintsForDoneButton()
     }
@@ -354,21 +322,9 @@ private extension SettingsViewController {
         ])
     }
     
-    func setConstraintsForColorLabelsStackView() {
+    func setConstraintsForChildStackViews(_ stackView: UIStackView, constant: CGFloat) {
         NSLayoutConstraint.activate([
-            colorLabelsStackView.widthAnchor.constraint(equalToConstant: 44)
-        ])
-    }
-    
-    func setConstraintsForValueLabelsStackView() {
-        NSLayoutConstraint.activate([
-            valueLabelsStackView.widthAnchor.constraint(equalToConstant: 30)
-        ])
-    }
-    
-    func setConstraintsForTextFieldsStackView() {
-        NSLayoutConstraint.activate([
-            textFieldsStackView.widthAnchor.constraint(equalToConstant: 50)
+            stackView.widthAnchor.constraint(equalToConstant: constant)
         ])
     }
     
@@ -402,7 +358,7 @@ private extension SettingsViewController {
 private extension SettingsViewController {
     private func showAlert(withTitle title: String, andMessage message: String, textField: UITextField? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default) {_ in
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
             textField?.text = "0.50"
             textField?.becomeFirstResponder()
         }
@@ -422,6 +378,7 @@ extension SettingsViewController: UITextFieldDelegate {
             showAlert(withTitle: "Wrong format!", andMessage: "Please enter correct value")
             return
         }
+        
         guard let currentValue = Float(text), (0...1).contains(currentValue) else {
             showAlert(
                 withTitle: "Wrong format!",
@@ -434,13 +391,13 @@ extension SettingsViewController: UITextFieldDelegate {
         switch textField {
         case redTextField:
             redSlider.setValue(currentValue, animated: true)
-            redValueLabel.text = string(from: redSlider)
+            setValue(for: redValueLabel)
         case greenTextField:
             greenSlider.setValue(currentValue, animated: true)
-            greenValueLabel.text = string(from: greenSlider)
+            setValue(for: greenValueLabel)
         default:
             blueSlider.setValue(currentValue, animated: true)
-            blueValueLabel.text = string(from: blueSlider)
+            setValue(for: blueValueLabel)
         }
         
         setColor()
